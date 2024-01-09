@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Amenity object API """
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -15,7 +15,7 @@ def get_all_amenities():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def all_amenity(amenity_id):
+def get_amenity(amenity_id):
     """ Retrieve an amenity object """
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
@@ -32,7 +32,7 @@ def delete_amenity(amenity_id):
         abort(404)
     storage.delete(amenity)
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -62,4 +62,4 @@ def update_amenity(amenity_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)
     amenity.save()
-    return jsonify(amenity.to_dict())
+    return jsonify(amenity.to_dict()), 200
