@@ -2,7 +2,9 @@
 """ City objects views """
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from models import storage, City, State
+from models import storage
+from models.state import State
+from models.city import City
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
@@ -69,4 +71,4 @@ def update_city(city_id):
         if key not in ignore_keys:
             setattr(city, key, value)
     city.save()
-    return jsonify(city.to_dict())
+    return jsonify(city.to_dict()), 200

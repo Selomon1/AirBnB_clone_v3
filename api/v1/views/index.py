@@ -10,7 +10,7 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_viewa.route('/stats', methods=['GET'])
+@app_views.route('/stats', methods=['GET'])
 def retrieve_obj_count():
     obj_count = {
         "amenities": storage.count("Amenity"),
