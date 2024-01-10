@@ -78,6 +78,7 @@ def update_place(place_id):
 
     if not request.json:
         abort(400, "Not a JSON")
+
     ignore_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
     data = request.get_json()
     for key, value in data.items():
