@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ User API """
-from flask import jsonify, request, abort
+from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
 from models.user import User
 from models import storage

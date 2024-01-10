@@ -39,10 +39,10 @@ def delete_amenity(amenity_id):
 def create_amenity():
     """ Create an amenity object """
     if not request.json:
-        abort(400, "Not JSON")
+        abort(400, "Not a JSON")
     if 'name' not in request.json:
         abort(400, "Missing name")
-    date = request.get_json()
+    data = request.get_json()
     n_amenity = Amenity(**data)
     n_amenity.save()
     return jsonify(n_amenity.to_dict()), 201
