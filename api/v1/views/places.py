@@ -64,9 +64,8 @@ def create_place(city_id):
     if not user:
         abort(404)
 
-    data = request.get_json()
-    data['city_id'] = city_id
-    n_place = Place(**data)
+    n_place = Place(**request.json)
+    n_place.city_id = city_id
     n_place.save()
     return jsonify(n_place.to_dict()), 201
 
