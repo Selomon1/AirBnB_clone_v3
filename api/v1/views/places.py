@@ -88,4 +88,4 @@ def update_place(place_id):
         if key not in ignore_keys:
             setattr(place, key, value)
     place.save()
-    return jsonify(place.to_dict()), 200 # This is an optional comment explaining response
+    return jsonify(place.to_dict()), 200
