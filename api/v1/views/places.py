@@ -48,16 +48,18 @@ def create place(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    if not request.json:
-        abort(404, "Not a JSON")
+    data = request.get_json()
+    if not data or not isinstance(data, dict):
+        abort(400, "Not a JSON")
+
     required_keys = ['user_id', 'name']
-    for key in required_keys:
-        if key not in request.json:
-            abort(400, f"Missing {key}")
-    user = storage.get(User, request.json['user_id'])
+    missing_keys = [key for key in required_keys if not in data]
+    if missing_keys:
+        abort(400, f"Missing keys: {', '.join(missing_key)}")
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
-    data = request.get_json()
+
     data['city_id'] = city_id
     n_place = Place(**data)
     n_place.save()
@@ -71,10 +73,10 @@ def update_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    if not request.json:
+    data = request.get_json()
+    if not data or not isinstance(data, dict):
         abort(400, "Not a JSON")
     ignore_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
-    data = request.get_json()
     for key, value in data.items():
         if key not in ignore_keys:
             setattr(place, key, value)
