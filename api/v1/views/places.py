@@ -49,7 +49,7 @@ def create_place(city_id):
     if not city:
         abort(404)
 
-    if not data:
+    if not request.json:
         abort(400, "Not a JSON")
 
     if 'user_id' not in request.json:
