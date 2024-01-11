@@ -49,21 +49,21 @@ def create_place(city_id):
     if not city:
         abort(404)
 
-    data = request.get_json()
     if not data:
         abort(400, "Not a JSON")
 
     required_keys = ['user_id', 'name']
     for key in required_keys:
-        if key not in data:
+        if key not in request.json:
             abort(400, f"Missing {key}")
 
-    user = storage.get(User, data['user_id'])
+    user = storage.get(User, request.json['user_id'])
     if not user:
         abort(404)
 
+    data = request.get_json()
+    data['city_id'] = city_id
     n_place = Place(**data)
-    n_place.city_id = city_id
     n_place.save()
     return jsonify(n_place.to_dict()), 201
 
