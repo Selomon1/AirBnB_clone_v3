@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Place Api object """
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
