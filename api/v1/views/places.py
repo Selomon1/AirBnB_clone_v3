@@ -2,10 +2,10 @@
 """ Place Api object """
 from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
+from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
-from models import storage
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -49,22 +49,20 @@ def create_place(city_id):
     if not city:
         abort(404)
 
-    if not request.json:
+    data = request.get_json()
+    if not data:
         abort(400, "Not a JSON")
 
     required_keys = ['user_id', 'name']
     for key in required_keys:
-        if key not in request.json:
+        if key not in data:
             abort(400, f"Missing {key}")
 
-    if 'name' not in request.json:
-        abort(400, "Missing name")
-
-    user = storage.get(User, request.json['user_id'])
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
 
-    n_place = Place(**request.json)
+    n_place = Place(**data)
     n_place.city_id = city_id
     n_place.save()
     return jsonify(n_place.to_dict()), 201
