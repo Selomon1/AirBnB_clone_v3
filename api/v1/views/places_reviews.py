@@ -38,7 +38,7 @@ def delete_review(review_id):
         abort(404)
     storage.delete(review)
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
@@ -55,7 +55,7 @@ def create_review(place_id):
     if 'user_id' not in request.json:
         abort(400, "Missing user_id")
 
-    user = storage.get(User, data['user_id'])
+    user = storage.get(User, request.json['user_id'])
     if not user:
         abort(404)
 
