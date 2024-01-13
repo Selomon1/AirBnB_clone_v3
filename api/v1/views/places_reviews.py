@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Place reviews Api """
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.place import Place
 from models.review import Review
@@ -59,7 +59,7 @@ def create_review(place_id):
     if not user:
         abort(404)
 
-    if 'name' not in request.json:
+    if 'text' not in request.json:
         abort(400, "Missing text")
 
     data = request.get_json()
